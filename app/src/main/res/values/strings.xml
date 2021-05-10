@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">VenueApp</string>
+    <string name="search">Search</string>
+    <string name="venue_image">venue image</string>
+</resources>
