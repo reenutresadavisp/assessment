@@ -28,7 +28,7 @@ android {
         buildConfigField "String", "API_PARAM_CLIENT_ID_VALUE", "\"VHKGU0VROG3LLBTPUQIIYWMTDKD01QJ3QDZDXHPH0Z100SFK\""
         buildConfigField "String", "API_PARAM_CLIENT_SECRET_VALUE", "\"AKMI2N0Y2KTN541ZOFGF2PRQVKCXM2SGLD2O2UYOIHZOSAQV\""
         buildConfigField "String", "API_PARAM_VERSION_DATE_VALUE", "\"20210509\""
-        buildConfigField "String", "DATABASE_NAME","\"venue.db\""
+        buildConfigField "String", "DATABASE_NAME", "\"venue.db\""
     }
 
     buildTypes {

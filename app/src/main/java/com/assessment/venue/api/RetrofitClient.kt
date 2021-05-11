@@ -20,7 +20,7 @@ object RetrofitClient {
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
-        .client(gethttpClient())
+        .client(createHttpClient())
         .build()
 
     //Method to create instance of VenueApiService using Retrofit
@@ -29,7 +29,7 @@ object RetrofitClient {
     }
 
     //Method to create Http Client with logging interceptor and queryInterceptor
-    private fun gethttpClient(): OkHttpClient {
+    private fun createHttpClient(): OkHttpClient {
 
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY

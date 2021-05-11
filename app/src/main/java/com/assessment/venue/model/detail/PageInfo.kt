@@ -1,7 +1,7 @@
 package com.assessment.venue.model.detail
 
 /**
- * Data class to hold pageinfo data
+ * Data class to hold page info data
  */
 data class PageInfo(
     val description: String

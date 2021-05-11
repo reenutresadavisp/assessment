@@ -1,7 +1,7 @@
 package com.assessment.venue
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.assessment.venue.db.VenueDetailsEntity
+import com.assessment.venue.db.VenueEntity
 import com.assessment.venue.model.Resource
 import com.assessment.venue.repository.VenueRepository
 import com.assessment.venue.viewmodel.VenueViewModel
@@ -65,7 +65,7 @@ class VenueViewModelTest {
     fun checkfetchVenueDetailOnSuccessResponse() {
         runBlocking {
             `when`(repository.getVenueDetails("123"))
-                .thenReturn(Resource.Success(mock(VenueDetailsEntity::class.java)))
+                .thenReturn(Resource.Success(mock(VenueEntity::class.java)))
             val viewModel = VenueViewModel(repository)
             viewModel.fetchVenueDetails("123")
             Assert.assertFalse(viewModel.progressBarLiveData.value == true)

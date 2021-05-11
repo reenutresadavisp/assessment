@@ -2,7 +2,7 @@ package com.assessment.venue.repository
 
 import com.assessment.venue.api.VenueApiService
 import com.assessment.venue.db.VenueDao
-import com.assessment.venue.db.VenueDetailsEntity
+import com.assessment.venue.db.VenueDetails
 import com.assessment.venue.db.VenueEntity
 import com.assessment.venue.model.Resource
 import com.assessment.venue.model.detail.VenueDetail
@@ -27,13 +27,12 @@ class VenueRepository(val apiService: VenueApiService, val venueDao: VenueDao?) 
                 val response = apiService.getVenueList(location)
                 if (response.isSuccessful) {
                     saveVenueToDatabase(response.body()?.response?.venues, location)
-                    val data = venueDao?.fetchVenues(location)
-                    Resource.Success(data)
+                    fetchCachedVenueListFromDb(location)
                 } else {
-                    fetchCachedVenueListIfAvailableFromDb(location)
+                    fetchCachedVenueListFromDb(location)
                 }
             } catch (throwable: Throwable) {
-                fetchCachedVenueListIfAvailableFromDb(location)
+                fetchCachedVenueListFromDb(location)
             }
         }
     }
@@ -43,7 +42,7 @@ class VenueRepository(val apiService: VenueApiService, val venueDao: VenueDao?) 
     * @param location: String
     * @return Resource<Array<VenueEntity>?>
     */
-    suspend fun fetchCachedVenueListIfAvailableFromDb(location: String): Resource<Array<VenueEntity>?> {
+    suspend fun fetchCachedVenueListFromDb(location: String): Resource<Array<VenueEntity>?> {
         val data = venueDao?.fetchVenues(location)
         return if (data.isNullOrEmpty()) {
             Resource.Error("No Data found")
@@ -52,32 +51,26 @@ class VenueRepository(val apiService: VenueApiService, val venueDao: VenueDao?) 
         }
     }
 
-    /*Method to insert/update venuelist to database
+    /*Method to delete/insert venuelist to database
      * @param venues: List<Venue>?
      * @param location: String
      */
     suspend fun saveVenueToDatabase(venues: List<Venue>?, location: String) {
+        venueDao?.deleteVenues(location)
         venues?.let {
             for (venue in it) {
                 val venueEntity = VenueEntity(venue.id, location, venue.name, venue.location.city)
-                val data = venueDao?.isVenueAvailable(venue.id)
-                if (data == null) {
-                    venueDao?.insertVenues(venueEntity)
-                } else {
-                    venueDao?.updateVenue(venueEntity)
-                }
+                venueDao?.insertVenues(venueEntity)
             }
         }
     }
 
-    /*Method to insert/update venuedetils to database
+    /*Method to update venuedetils to database
     * @param venue: VenueDetail
     */
     suspend fun saveVenueDetailsToDatabase(venue: VenueDetail) {
 
-        val venueEntity = VenueDetailsEntity(
-            venue.id,
-            venue.name,
+        val venueDetails = VenueDetails(
             venue.location.address,
             venue.page?.pageInfo?.description,
             venue.contact.formattedPhone,
@@ -86,19 +79,16 @@ class VenueRepository(val apiService: VenueApiService, val venueDao: VenueDao?) 
             venue.rating
         )
 
-        if (venueDao?.isVenueDetailAvailable(venue.id) == null) {
-            venueDao?.insertVenueDetail(venueEntity)
-        } else {
-            venueDao.updateVenueDetails(venueEntity)
-        }
+        venueDao?.updateVenueDetails(venueDetails,venue.id)
     }
+
 
     /*Fetch venue details for a given venueId from the apiService and save the data to database
      *on success else return cached data from the database if available
      * @param venueId: String
-     * @return Resource<VenueDetailsEntity?>
+     * @return Resource<VenueEntity?>
      */
-    suspend fun getVenueDetails(venueId: String): Resource<VenueDetailsEntity?> {
+    suspend fun getVenueDetails(venueId: String): Resource<VenueEntity?> {
         return withContext(Dispatchers.IO) {
             try {
                 val response = apiService.getVenueDetails(venueId)
@@ -117,9 +107,9 @@ class VenueRepository(val apiService: VenueApiService, val venueDao: VenueDao?) 
     /*Method to fetch venue details for a given venueid from the database if available
     *else returns error message
     * @param location: String
-    * @return Resource<VenueDetailsEntity?>
+    * @return Resource<VenueEntity?>
     */
-    suspend fun fetchCachedVenueDetailIfAvailableFromDb(venueId: String): Resource<VenueDetailsEntity?> {
+    suspend fun fetchCachedVenueDetailIfAvailableFromDb(venueId: String): Resource<VenueEntity?> {
         val data = venueDao?.fetchVenueDetails(venueId)
         return if (data != null) {
             Resource.Success(data)

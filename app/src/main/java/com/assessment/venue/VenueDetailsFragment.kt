@@ -41,18 +41,18 @@ class VenueDetailsFragment : BaseFragment() {
         setObservers()
     }
 
-    //Method to observe venuedetail livedata and populate ui
+    //Method to observe detail livedata and populate ui
     private fun setObservers() {
-        viewModel.venueDetailLiveData.observe(viewLifecycleOwner) { details ->
-            if (details != null) {
+        viewModel.venueDetailLiveData.observe(viewLifecycleOwner) { venue ->
+            if (venue != null) {
                 binding?.apply {
-                    venueTitle.text = details.title
-                    venueDesc.text = details.description
-                    venueAddress.text = details.address
-                    venueContact.text = details.contact
-                    venueRating.rating = details.rating?.toFloat() ?: 0f
+                    venueTitle.text = venue.title
+                    venueDesc.text = venue.detail?.description
+                    venueAddress.text = venue.detail?.address
+                    venueContact.text = venue.detail?.contact
+                    venueRating.rating = venue.detail?.rating?.toFloat() ?: 0f
                 }
-                loadImage(details.imagePrefix + details.imageSuffix)
+                loadImage(venue.detail?.imagePrefix + venue.detail?.imageSuffix)
             }
         }
     }

@@ -2,7 +2,7 @@ package com.assessment.venue
 
 import com.assessment.venue.api.VenueApiService
 import com.assessment.venue.db.VenueDao
-import com.assessment.venue.db.VenueDetailsEntity
+import com.assessment.venue.db.VenueDetails
 import com.assessment.venue.db.VenueEntity
 import com.assessment.venue.model.detail.VenueDetailResponse
 import com.assessment.venue.model.search.VenueSearchListResponse
@@ -110,13 +110,13 @@ class VenueRepositoryTest {
 
     @Test
     fun fetchOldDetailsIfAvailableFromDbOnApiError() {
-        val result = VenueDetailsEntity(
-            "123",
-            "Norway",
+        val result = VenueDetails(
             "address",
             "description",
             "contact",
-            "imagePrefix", "imageSuffix", "2.5"
+            "imagePrefix",
+            "imageSuffix",
+            "2.5"
         )
         val response = mock(Response::class.java) as? Response<VenueDetailResponse>
         `when`(response?.isSuccessful())
@@ -127,11 +127,11 @@ class VenueRepositoryTest {
                 .thenReturn(response)
 
             `when`(venueDao.fetchVenueDetails("123"))
-                .thenReturn(result)
+                .thenReturn(VenueEntity("123","norway","title","city",result))
 
             val repository = VenueRepository(apiService, venueDao)
             val actualResult = repository.getVenueDetails("123").data
-            Assert.assertEquals("2.5", actualResult?.rating)
+            Assert.assertEquals("2.5", actualResult?.detail?.rating)
         }
     }
 

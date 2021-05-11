@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.assessment.venue.api.RetrofitClient
-import com.assessment.venue.db.VenueDatabase
+import com.assessment.venue.db.RoomClient.getDao
 import com.assessment.venue.repository.VenueRepository
 import com.assessment.venue.viewmodel.VenueViewModel
 import com.assessment.venue.viewmodel.VenueViewModelFactory
@@ -21,7 +21,7 @@ open class BaseFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val venueDao = VenueDatabase.getDatabase(requireActivity().applicationContext)?.venueDao()
+        val venueDao = getDao(requireActivity().applicationContext)
         val repository = VenueRepository(RetrofitClient.getVenueApiService(), venueDao)
         viewModel = ViewModelProvider(requireActivity(), VenueViewModelFactory(repository)).get(
             VenueViewModel::class.java

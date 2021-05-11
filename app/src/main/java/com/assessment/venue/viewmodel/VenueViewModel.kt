@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.assessment.venue.db.VenueDetailsEntity
+import com.assessment.venue.db.VenueDetails
 import com.assessment.venue.db.VenueEntity
 import com.assessment.venue.model.Resource
 import com.assessment.venue.repository.VenueRepository
@@ -17,12 +17,12 @@ class VenueViewModel(val venueRepository: VenueRepository) : ViewModel() {
 
     private val _progressBarLiveData = MutableLiveData<Boolean>()
     private val _venueListLiveData = MutableLiveData<Array<VenueEntity>>()
-    private val _venueDetailLiveData = MutableLiveData<VenueDetailsEntity>()
+    private val _venueDetailLiveData = MutableLiveData<VenueEntity>()
     private val _generalErrorLiveData = MutableLiveData<String>()
 
     val progressBarLiveData: LiveData<Boolean> = _progressBarLiveData
     val venueListLiveData: LiveData<Array<VenueEntity>> = _venueListLiveData
-    val venueDetailLiveData: LiveData<VenueDetailsEntity> = _venueDetailLiveData
+    val venueDetailLiveData: LiveData<VenueEntity> = _venueDetailLiveData
     val generalErrorLiveData: LiveData<String> = _generalErrorLiveData
 
     /*Method to fetch venue list for a given location from the repository and
