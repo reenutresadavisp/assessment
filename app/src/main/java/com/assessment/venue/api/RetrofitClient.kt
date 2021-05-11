@@ -1,5 +1,9 @@
 package com.assessment.venue.api
 
+import com.assessment.venue.BuildConfig.*
+import com.assessment.venue.util.Constants.API_PARAM_CLIENT_ID
+import com.assessment.venue.util.Constants.API_PARAM_CLIENT_SECRET
+import com.assessment.venue.util.Constants.API_PARAM_VERSION_DATE
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -8,32 +12,36 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
+/**
+ * Handles instantiation of Retrofit Api Service
+ */
 object RetrofitClient {
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("https://api.foursquare.com/v2/venues/")
+        .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(gethttpClient())
         .build()
 
+    //Method to create instance of VenueApiService using Retrofit
     fun getVenueApiService(): VenueApiService {
         return retrofit.create(VenueApiService::class.java)
     }
 
-    private fun gethttpClient(): OkHttpClient{
+    //Method to create Http Client with logging interceptor and queryInterceptor
+    private fun gethttpClient(): OkHttpClient {
 
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
 
-        val queryInterceptor = Interceptor{ chain ->
+        val queryInterceptor = Interceptor { chain ->
             val original: Request = chain.request()
             val originalHttpUrl: HttpUrl = original.url
 
             val url = originalHttpUrl.newBuilder()
-                .addQueryParameter("client_id", "VHKGU0VROG3LLBTPUQIIYWMTDKD01QJ3QDZDXHPH0Z100SFK")
-                .addQueryParameter("client_secret", "AKMI2N0Y2KTN541ZOFGF2PRQVKCXM2SGLD2O2UYOIHZOSAQV")
-                .addQueryParameter("v", "20210509")
+                .addQueryParameter(API_PARAM_CLIENT_ID, API_PARAM_CLIENT_ID_VALUE)
+                .addQueryParameter(API_PARAM_CLIENT_SECRET, API_PARAM_CLIENT_SECRET_VALUE)
+                .addQueryParameter(API_PARAM_VERSION_DATE, API_PARAM_VERSION_DATE_VALUE)
                 .build()
 
             val requestBuilder: Request.Builder = original.newBuilder()

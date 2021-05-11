@@ -1,5 +1,7 @@
 package com.assessment.venue.model
-
+/**
+ * A generic sealed class that holds api response value.
+ */
 sealed class Resource<T>(
     val data: T? = null,
     val message: String? = null

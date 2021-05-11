@@ -1,3 +1,6 @@
 package com.assessment.venue.model.search
 
-data class ListResponse(val venues : List<Venue>)
+/**
+ * Data class to hold list reponse
+ */
+data class ListResponse(val venues: List<Venue>)

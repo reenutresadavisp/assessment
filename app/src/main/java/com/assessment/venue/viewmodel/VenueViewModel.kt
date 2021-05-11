@@ -10,6 +10,9 @@ import com.assessment.venue.model.Resource
 import com.assessment.venue.repository.VenueRepository
 import kotlinx.coroutines.launch
 
+/*ViewModel Class to handle repository calls
+* @param venueRepository: VenueRepository
+*/
 class VenueViewModel(val venueRepository: VenueRepository) : ViewModel() {
 
     private val _progressBarLiveData = MutableLiveData<Boolean>()
@@ -22,6 +25,10 @@ class VenueViewModel(val venueRepository: VenueRepository) : ViewModel() {
     val venueDetailLiveData: LiveData<VenueDetailsEntity> = _venueDetailLiveData
     val generalErrorLiveData: LiveData<String> = _generalErrorLiveData
 
+    /*Method to fetch venue list for a given location from the repository and
+     * save the response to the corresponding livedatas
+     * @param location: String?
+     */
     fun fetchVenueList(location: String?) {
         _progressBarLiveData.value = true
         viewModelScope.launch {
@@ -39,6 +46,10 @@ class VenueViewModel(val venueRepository: VenueRepository) : ViewModel() {
         }
     }
 
+    /*Method to fetch venue detail for a given venueId from the repository and
+    * save the response to the corresponding livedatas
+    * @param venueId: String
+    */
     fun fetchVenueDetails(venueId: String) {
         _progressBarLiveData.value = true
         viewModelScope.launch {
@@ -55,6 +66,7 @@ class VenueViewModel(val venueRepository: VenueRepository) : ViewModel() {
         }
     }
 
+    //Method to clear live data
     fun clearDetails() {
         _venueDetailLiveData.value = null
         _generalErrorLiveData.value = null

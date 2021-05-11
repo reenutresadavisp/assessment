@@ -4,9 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.assessment.venue.BuildConfig.DATABASE_NAME
 
+/**
+ * Main database description.
+ */
 @Database(entities = arrayOf(VenueEntity::class, VenueDetailsEntity::class), version = 1)
-abstract class VenueDatabase : RoomDatabase(){
+abstract class VenueDatabase : RoomDatabase() {
     abstract fun venueDao(): VenueDao
 
     companion object {
@@ -16,7 +20,7 @@ abstract class VenueDatabase : RoomDatabase(){
                 synchronized(VenueDatabase::class) {
                     INSTANCE = Room.databaseBuilder(
                         context.getApplicationContext(),
-                        VenueDatabase::class.java, "venue.db"
+                        VenueDatabase::class.java, DATABASE_NAME
                     ).build()
                 }
             }

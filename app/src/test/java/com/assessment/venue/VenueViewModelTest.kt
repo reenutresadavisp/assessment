@@ -14,10 +14,10 @@ import org.junit.*
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
-
+//Test Class to VenueViewModel
 class VenueViewModelTest {
 
-    private lateinit var repository:VenueRepository
+    private lateinit var repository: VenueRepository
 
     @get:Rule
     val instantExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
@@ -38,7 +38,7 @@ class VenueViewModelTest {
 
 
     @Test
-    fun checkfetchVenueListOnSuccessResponse(){
+    fun checkfetchVenueListOnSuccessResponse() {
         runBlocking {
             `when`(repository.getVenueSerachList("Norway"))
                 .thenReturn(Resource.Success(arrayOf()))
@@ -50,7 +50,7 @@ class VenueViewModelTest {
     }
 
     @Test
-    fun checkfetchVenueListOnErrorResponse(){
+    fun checkfetchVenueListOnErrorResponse() {
         runBlocking {
             `when`(repository.getVenueSerachList("Norway"))
                 .thenReturn(Resource.Error("Error"))
@@ -62,7 +62,7 @@ class VenueViewModelTest {
     }
 
     @Test
-    fun checkfetchVenueDetailOnSuccessResponse(){
+    fun checkfetchVenueDetailOnSuccessResponse() {
         runBlocking {
             `when`(repository.getVenueDetails("123"))
                 .thenReturn(Resource.Success(mock(VenueDetailsEntity::class.java)))
@@ -74,7 +74,7 @@ class VenueViewModelTest {
     }
 
     @Test
-    fun checkfetchVenueDetailOnErrorResponse(){
+    fun checkfetchVenueDetailOnErrorResponse() {
         runBlocking {
             `when`(repository.getVenueDetails("123"))
                 .thenReturn(Resource.Error("Error"))

@@ -17,7 +17,7 @@ import org.mockito.kotlin.*
 
 import retrofit2.Response
 
-
+//Test Class to VenueRepository
 class VenueRepositoryTest {
 
     private lateinit var apiService: VenueApiService
@@ -32,13 +32,13 @@ class VenueRepositoryTest {
 
     @Test
     fun checkgetVenueListOnApiSuccess() {
-        val response = mock(Response::class.java)as? Response<VenueSearchListResponse>
+        val response = mock(Response::class.java) as? Response<VenueSearchListResponse>
         `when`(response?.isSuccessful())
             .thenReturn(true)
 
 
         runBlocking {
-           `when`(apiService.getVenueList("Norway"))
+            `when`(apiService.getVenueList("Norway"))
                 .thenReturn(response)
             val repository = VenueRepository(apiService, venueDao)
             repository.getVenueSerachList("Norway")
@@ -48,12 +48,15 @@ class VenueRepositoryTest {
 
     @Test
     fun fetchOldDataIfAvailableFromDbOnApiError() {
-        val result =  arrayOf(VenueEntity("123",
-            "Norway",
-            "title",
-            "city"
-        ))
-        val response = mock(Response::class.java)as? Response<VenueSearchListResponse>
+        val result = arrayOf(
+            VenueEntity(
+                "123",
+                "Norway",
+                "title",
+                "city"
+            )
+        )
+        val response = mock(Response::class.java) as? Response<VenueSearchListResponse>
         `when`(response?.isSuccessful())
             .thenReturn(false)
 
@@ -72,7 +75,7 @@ class VenueRepositoryTest {
 
     @Test
     fun checkErrorIfOldDataIfNotAvailableFromDbOnApiError() {
-        val response = mock(Response::class.java)as? Response<VenueSearchListResponse>
+        val response = mock(Response::class.java) as? Response<VenueSearchListResponse>
         `when`(response?.isSuccessful())
             .thenReturn(false)
 
@@ -91,7 +94,7 @@ class VenueRepositoryTest {
 
     @Test
     fun checkgetVenueDetailOnApiSuccess() {
-        val response = mock(Response::class.java)as? Response<VenueDetailResponse>
+        val response = mock(Response::class.java) as? Response<VenueDetailResponse>
         `when`(response?.isSuccessful())
             .thenReturn(true)
 
@@ -107,14 +110,15 @@ class VenueRepositoryTest {
 
     @Test
     fun fetchOldDetailsIfAvailableFromDbOnApiError() {
-        val result =  VenueDetailsEntity("123",
+        val result = VenueDetailsEntity(
+            "123",
             "Norway",
             "address",
             "description",
             "contact",
-            "imagePrefix","imageSuffix","2.5"
+            "imagePrefix", "imageSuffix", "2.5"
         )
-        val response = mock(Response::class.java)as? Response<VenueDetailResponse>
+        val response = mock(Response::class.java) as? Response<VenueDetailResponse>
         `when`(response?.isSuccessful())
             .thenReturn(false)
 
@@ -133,7 +137,7 @@ class VenueRepositoryTest {
 
     @Test
     fun checkErrorIfOldDetailIfNotAvailableFromDbOnApiError() {
-        val response = mock(Response::class.java)as? Response<VenueDetailResponse>
+        val response = mock(Response::class.java) as? Response<VenueDetailResponse>
         `when`(response?.isSuccessful())
             .thenReturn(false)
 

@@ -8,16 +8,6 @@
     android:paddingTop="@dimen/padding_small"
     android:paddingBottom="@dimen/padding_small">
 
-    <ProgressBar
-        android:id="@+id/progress_circular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
     <androidx.appcompat.widget.SearchView
         android:id="@+id/venue_location_search_view"
         android:layout_width="0dp"

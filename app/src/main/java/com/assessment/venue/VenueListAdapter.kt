@@ -7,8 +7,10 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.assessment.venue.db.VenueEntity
-import com.assessment.venue.model.search.Venue
 
+/**
+ * Adapter Class to load the venue list to the recyclerview
+ */
 class VenueListAdapter(private val venueList: Array<VenueEntity>?, val onClick: (String) -> Unit) :
     RecyclerView.Adapter<VenueListAdapter.ViewHolder>() {
 
@@ -24,7 +26,7 @@ class VenueListAdapter(private val venueList: Array<VenueEntity>?, val onClick: 
 
         viewHolder.venueTitle.text = venueList?.get(position)?.title
         viewHolder.venueLocation.text = venueList?.get(position)?.city
-        viewHolder.cardView.setOnClickListener({ venueList?.let { onClick(it.get(position).id) } })
+        viewHolder.cardView.setOnClickListener { venueList?.let { onClick(it.get(position).id) } }
     }
 
     override fun getItemCount() = venueList?.size ?: 0

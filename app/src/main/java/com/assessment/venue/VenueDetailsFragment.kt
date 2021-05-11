@@ -5,36 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import com.assessment.venue.api.RetrofitClient
 import com.assessment.venue.databinding.FragmentVenueDetailBinding
-import com.assessment.venue.db.VenueDatabase
-import com.assessment.venue.repository.VenueRepository
-import com.assessment.venue.viewmodel.VenueViewModel
-import com.assessment.venue.viewmodel.VenueViewModelFactory
 import com.squareup.picasso.Picasso
 
-
-class VenueDetailsFragment : Fragment() {
+/**
+ * Fragment to display the details of a venue
+ */
+class VenueDetailsFragment : BaseFragment() {
 
     val args: VenueDetailsFragmentArgs by navArgs()
 
     private var binding: FragmentVenueDetailBinding? = null
-    private lateinit var viewModel: VenueViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val venueDao =
-            activity?.let { VenueDatabase.getDatabase(it.applicationContext) }?.venueDao()
-        val repository = VenueRepository(RetrofitClient.getVenueApiService(), venueDao)
-        viewModel = ViewModelProvider(requireActivity(), VenueViewModelFactory(repository)).get(
-            VenueViewModel::class.java
-        )
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,19 +41,8 @@ class VenueDetailsFragment : Fragment() {
         setObservers()
     }
 
+    //Method to observe venuedetail livedata and populate ui
     private fun setObservers() {
-        viewModel.progressBarLiveData.observe(viewLifecycleOwner) { isLoading ->
-            binding?.progressCircular?.visibility = if (isLoading == true) {
-                View.VISIBLE
-            } else View.GONE
-        }
-
-        viewModel.generalErrorLiveData.observe(viewLifecycleOwner) {message ->
-            if(!message.isNullOrEmpty()) {
-                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-            }
-        }
-
         viewModel.venueDetailLiveData.observe(viewLifecycleOwner) { details ->
             if (details != null) {
                 binding?.apply {
@@ -86,6 +57,7 @@ class VenueDetailsFragment : Fragment() {
         }
     }
 
+    //Method to load image using Picasso
     private fun loadImage(imageUrl: String) {
         Picasso.get().load(imageUrl)
             .placeholder(R.drawable.placeholder_image)

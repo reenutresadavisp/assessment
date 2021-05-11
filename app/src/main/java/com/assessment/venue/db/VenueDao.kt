@@ -5,6 +5,9 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 
+/**
+ * Interface for database access for venue related operations.
+ */
 @Dao
 interface VenueDao {
     @Query("SELECT * FROM VenueDetailsEntity WHERE id LIKE :id")

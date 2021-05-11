@@ -21,6 +21,14 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "BASE_URL", "\"https://api.foursquare.com/v2/venues/\""
+        buildConfigField "String", "SEARCH_API_URL", "\"search?radius=1000&limit=10\""
+        buildConfigField "String", "VENUE_DETAIL_API_URL", "\"{venueId}\""
+        buildConfigField "String", "API_PARAM_CLIENT_ID_VALUE", "\"VHKGU0VROG3LLBTPUQIIYWMTDKD01QJ3QDZDXHPH0Z100SFK\""
+        buildConfigField "String", "API_PARAM_CLIENT_SECRET_VALUE", "\"AKMI2N0Y2KTN541ZOFGF2PRQVKCXM2SGLD2O2UYOIHZOSAQV\""
+        buildConfigField "String", "API_PARAM_VERSION_DATE_VALUE", "\"20210509\""
+        buildConfigField "String", "DATABASE_NAME","\"venue.db\""
     }
 
     buildTypes {
