@@ -2,7 +2,10 @@ package com.assessment.venue.db
 
 import android.content.Context
 import com.google.gson.Gson
-
+/**
+ * Handles instantiation of dao ang gson
+ * required for database operations
+ */
 object RoomClient {
 
     fun getGson(): Gson {
